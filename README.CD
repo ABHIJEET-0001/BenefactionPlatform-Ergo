@@ -1,0 +1,125 @@
+# Bene — Decentralized Fundraising Platform (Ergo)
+
+![Bene Logo](static/favicon.png)
+
+## Overview
+
+**Bene** is a fully decentralized, client-side fundraising platform built on the **Ergo blockchain**, implementing a **Proof-of-Funding** model.  
+It removes the need for trust in centralized intermediaries by enforcing fundraising logic entirely through immutable smart contracts.
+
+Projects can access funds **only if predefined success conditions are met**, while contributors are guaranteed refunds in case of failure.
+
+---
+
+## Key Properties
+
+- **Trustless Fundraising:** Funds are governed exclusively by smart contracts.
+- **Client-Side Only:** No backend servers, databases, or custodial services.
+- **Censorship Resistant:** Users connect directly to Ergo nodes and explorers.
+- **Deterministic Rules:** Contract logic defines all outcomes — no discretion.
+
+---
+
+## Architecture Overview
+
+### Serverless & Sovereign by Design
+
+Bene follows a **100% client-side architecture**:
+
+- No centralized backend or API servers
+- No proprietary databases
+- Direct blockchain interaction from the browser
+- User-controlled choice of Ergo nodes and explorers
+
+All business logic, custody, and validation are handled on-chain.
+
+---
+
+## User Guide (Contributors)
+
+### Token Model
+
+Bene uses a dual-token mechanism to ensure transparent accounting.
+
+#### 1. Auxiliary Project Token (APT)
+
+- Acts as a **temporary receipt** for user contributions
+- Represents the contributor’s claim within a campaign
+- Used to either:
+  - Redeem **PFTs** on success
+  - Claim a **full refund** on failure
+
+#### 2. Proof-Funding Token (PFT)
+
+- The **actual project token**
+- Released only if the campaign succeeds
+- Distributed proportionally to contributors who exchange APTs
+
+---
+
+### Contribution Lifecycle
+
+#### 1. Contribution Phase
+- Users contribute ERG or a specified base token
+- Funds are locked in the contract
+- APTs are minted and issued to contributors
+- PFTs remain locked until campaign resolution
+
+#### 2. Resolution Phase
+
+| Outcome | Condition | User Action |
+|------|---------|------------|
+| Success | Tokens Sold ≥ Minimum Goal (R5) | Exchange APT → PFT |
+| Failure | Deadline passed (R4) and goal unmet | Return APT → Full Refund |
+
+---
+
+### On-Chain Discussions
+
+- Campaigns include a **fully on-chain comment system**
+- Discussions are immutable and censorship-resistant
+- Based on the Reputation Systems Forum Protocol  
+  https://github.com/reputation-systems/forum-application
+
+---
+
+## Guide for Project Creators
+
+### Requirements
+
+- Pre-minted **Project Tokens (PFT)**
+- APT is generated automatically by the platform
+
+### Fees
+
+- **5% developer fee**
+- Applied **only if the campaign succeeds**
+- No fees charged on failed campaigns
+
+---
+
+### Campaign Parameters (Immutable)
+
+- **R4 — Deadline**
+- **R5 — Minimum Goal**
+- **R7 — Token Price**
+- **R8 — Configuration (Owner, Fee Address, Token IDs)**
+
+---
+
+### Fund Management Rules
+
+| Action | Condition |
+|------|----------|
+| Withdraw Funds | Campaign success |
+| Withdraw Unsold PFTs | Anytime (security invariant enforced) |
+| Add PFT Stock | Anytime |
+
+---
+
+## Technical Architecture
+
+### Security Invariant
+
+The contract enforces the following invariant at all times:
+
